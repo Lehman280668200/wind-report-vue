@@ -8,21 +8,36 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
     children: [
       {
+        path: '/data-db',
+        name: 'data-db',
+        component: () => import('../views/data/DBs.vue')
+      },
+      {
+        path: '/data-config',
+        name: 'data-config',
+        component: () => import('../views/data/DataConfig.vue')
+      },
+      {
         path: '/report-data',
         name: 'report-data',
-        component: () => import('../views/ReportData.vue')
+        component: () => import('../views/report/ReportData.vue')
       },
       {
         path: '/report-echarts',
         name: 'report-echarts',
-        component: () => import('../views/ReportEcharts.vue')
+        component: () => import('../views/report/ReportEcharts.vue')
       },
       {
         path: '/report-datav',
         name: 'report-datav',
-        component: () => import('../views/ReportDataV.vue')
+        component: () => import('../views/report/ReportDataV.vue')
       }
     ]
+  },
+  {
+    path: '/design',
+    name: 'design',
+    component: () => import('../components/design/ReportDesign.vue')
   },
 ]
 

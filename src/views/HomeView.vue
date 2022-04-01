@@ -3,13 +3,27 @@
     <a-col :span="4">
       <!-- menu -->
       <a-menu
-        id="dddddd"
+        id="wind-report"
         style="width: 100%; height: calc(100vh)"
         v-model:openKeys="openKeys"
         v-model:selectedKeys="selectedKeys"
         mode="inline"
         @click="handleClick"
       >
+        <a-sub-menu key="data-source">
+          <template #icon>
+            <SettingOutlined />
+          </template>
+          <template #title>数据管理</template>
+          <a-menu-item key="data-db">
+            <template #icon><DatabaseOutlined /></template>
+            <router-link to="/data-db"> DB库</router-link>
+          </a-menu-item>
+          <a-menu-item key="data-config">
+            <template #icon><ConsoleSqlOutlined /></template>
+            <router-link to="/data-config"> 数据源配置</router-link>
+          </a-menu-item>
+        </a-sub-menu>
         <a-sub-menu key="report-management">
           <template #icon>
             <SettingOutlined />
@@ -41,11 +55,12 @@ import {
   DatabaseOutlined,
   PieChartOutlined,
   DesktopOutlined,
+  ConsoleSqlOutlined,
 } from "@ant-design/icons-vue";
 export default defineComponent({
   setup() {
     const selectedKeys = ref<string[]>(["report-management"]);
-    const openKeys = ref<string[]>(["report-management"]);
+    const openKeys = ref<string[]>(["data-source", "report-management"]);
     const router = useRouter();
     //  gogogo
     const handleClick = (e: Event) => {
@@ -63,6 +78,7 @@ export default defineComponent({
     DatabaseOutlined,
     PieChartOutlined,
     DesktopOutlined,
+    ConsoleSqlOutlined,
   },
 });
 </script>
