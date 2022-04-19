@@ -1,35 +1,64 @@
 <template>
-  <a-list size="small" bordered :data-source="data">
+<div class="wrapper">
+  <a-list size="small"  :data-source="props.data">
     <template #renderItem="{ item }">
-      <a-list-item>{{ item }}</a-list-item>
+      <a-list-item>
+        <a-list-item-meta :description="item.column">
+          <template #title>{{ item.title }}</template>
+        </a-list-item-meta>
+          <a-button type="primary" @click="copyColumn(item.column)">复制</a-button>
+      </a-list-item>
     </template>
     <template #header>
-      <div>Header</div>
-    </template>
-    <template #footer>
-      <div>Footer</div>
+      <div>数据源-XXXX</div>
     </template>
   </a-list>
+</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-const data: string[] = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
+import { defineComponent } from "vue"
+import { message } from 'ant-design-vue'
+import clipboard from 'vue-clipboard3'
+
+
 export default defineComponent({
-  setup() {
-    return { data };
+  props: {
+    data: Array
+  },
+  setup(props) {
+
+    /* 复制 */
+    const copyColumn = (column:string) => {
+      copy(column)
+    }
+
+    const { toClipboard } = clipboard()
+    const copy = async (column:string) => {
+      try {
+        await toClipboard(column)	//复制
+        message.success('复制成功')
+      } catch (e) {
+        message.error('复制失败')
+        console.error(e)
+      }
+    }
+
+    return {props,copyColumn}
   },
   watch: {},
   computed: {},
   methods: {},
   components: {},
-});
+})
 </script>
 <style lang="less" scoped>
+.wrapper {
+  height: calc(100vh);
+  border-right: 1px #cccccc solid;
+
+  .ant-list-item-meta{
+    text-align: left;
+  }
+}
 </style>

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, UnwrapRef } from "vue";
+import { defineComponent} from "vue"
 
 export default defineComponent({
   setup() {
@@ -28,13 +28,13 @@ export default defineComponent({
     };
     return {
       formState,
-    };
+    }
   },
 });
 </script>
 <style lang="less" scoped>
 .wrapper {
   height: calc(100vh);
-  border: 1px #cccccc solid;
+  border-left: 1px #cccccc solid;
 }
 </style>

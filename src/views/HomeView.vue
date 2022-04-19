@@ -48,22 +48,20 @@
   </a-row>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, ref } from "vue"
 import {
   SettingOutlined,
   DatabaseOutlined,
   PieChartOutlined,
   DesktopOutlined,
   ConsoleSqlOutlined,
-} from "@ant-design/icons-vue";
+} from "@ant-design/icons-vue"
 export default defineComponent({
   setup() {
-    const selectedKeys = ref<string[]>(["report-management"]);
-    const openKeys = ref<string[]>(["data-source", "report-management"]);
-    const router = useRouter();
+    const selectedKeys = ref<string[]>(["report-management"])
+    const openKeys = ref<string[]>(["data-source", "report-management"])
     //  gogogo
-    const handleClick = (e: Event) => {
+    const handleClick = () => {
       //console.log(e);
     };
     return {
@@ -80,6 +78,6 @@ export default defineComponent({
     DesktopOutlined,
     ConsoleSqlOutlined,
   },
-});
+})
 </script>
 

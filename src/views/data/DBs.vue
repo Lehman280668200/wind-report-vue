@@ -69,7 +69,7 @@ const columns = [
     key: "action",
     slots: { customRender: "action" },
   },
-];
+]
 
 const data = [
   {
@@ -93,20 +93,20 @@ const data = [
     address: "Sidney No. 1 Lake Park",
     tag: "Oracle",
   },
-];
+]
 
 export default defineComponent({
   setup() {
     return {
       data,
       columns,
-    };
+    }
   },
   components: {
     SmileOutlined,
     DownOutlined,
   },
-});
+})
 </script>
 
 

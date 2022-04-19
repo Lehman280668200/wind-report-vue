@@ -90,22 +90,20 @@
   </a-row>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue"
 import {
   DeleteOutlined,
   StarOutlined,
   CopyOutlined,
   AppstoreAddOutlined,
-} from "@ant-design/icons-vue";
-import { useRouter } from "vue-router";
+} from "@ant-design/icons-vue"
 export default defineComponent({
   setup() {
-    const router = useRouter();
 
     const reportClick = () => {
-      console.log(1);
-    };
-    return { reportClick };
+      window.open("/design")
+    }
+    return { reportClick }
   },
   components: {
     DeleteOutlined,
