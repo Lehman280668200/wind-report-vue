@@ -4,18 +4,24 @@ import HomeView from '../views/HomeView.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
+    name: 'homeView',
     component: HomeView,
+    redirect:'/home',
     children: [
       {
-        path: '/data-db',
-        name: 'data-db',
-        component: () => import('../views/data/DBs.vue')
+        path: '/home',
+        name: 'home',
+        component: () => import('../views/HomePage.vue')
       },
       {
-        path: '/data-config',
-        name: 'data-config',
-        component: () => import('../views/data/DataConfig.vue')
+        path: '/data-base',
+        name: 'data-base',
+        component: () => import('../views/data/DataBase.vue')
+      },
+      {
+        path: '/data-source',
+        name: 'data-source',
+        component: () => import('../views/data/DataSource.vue')
       },
       {
         path: '/report-data',
@@ -31,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/report-datav',
         name: 'report-datav',
         component: () => import('../views/report/ReportDataV.vue')
+      },
+      {
+        path: '/token',
+        name: 'token',
+        component: () => import('../views/TokenConfig.vue')
       }
     ]
   },

@@ -15,13 +15,13 @@
             <SettingOutlined />
           </template>
           <template #title>数据管理</template>
-          <a-menu-item key="data-db">
+          <a-menu-item key="data-base">
             <template #icon><DatabaseOutlined /></template>
-            <router-link to="/data-db"> DB库</router-link>
+            <router-link to="/data-base"> 数据库配置</router-link>
           </a-menu-item>
-          <a-menu-item key="data-config">
+          <a-menu-item key="data-source">
             <template #icon><ConsoleSqlOutlined /></template>
-            <router-link to="/data-config"> 数据源配置</router-link>
+            <router-link to="/data-source"> 数据源配置</router-link>
           </a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="report-management">
@@ -42,6 +42,10 @@
             <router-link to="/report-datav"> DataV</router-link>
           </a-menu-item>
         </a-sub-menu>
+        <a-menu-item key="token">
+          <template #icon><SettingOutlined /></template>
+          <router-link to="/token"> 全局Token </router-link>
+        </a-menu-item>
       </a-menu>
     </a-col>
     <a-col :span="20"><router-view /></a-col>
@@ -56,9 +60,11 @@ import {
   DesktopOutlined,
   ConsoleSqlOutlined,
 } from "@ant-design/icons-vue"
+
+
 export default defineComponent({
   setup() {
-    const selectedKeys = ref<string[]>(["report-management"])
+    const selectedKeys = ref<string[]>([])
     const openKeys = ref<string[]>(["data-source", "report-management"])
     //  gogogo
     const handleClick = () => {

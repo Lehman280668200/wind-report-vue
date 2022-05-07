@@ -1,8 +1,9 @@
 <template>
 <div class="wrapper">
-  <a-list size="small"  :data-source="props.data">
-    <template #renderItem="{ item }">
-      <a-list-item>
+
+  <a-list size="small" v-if="props.data.length>0"  :data-source="props.data">
+    <template #renderItem="{ item }" >
+      <a-list-item >
         <a-list-item-meta :description="item.column">
           <template #title>{{ item.title }}</template>
         </a-list-item-meta>
@@ -10,9 +11,14 @@
       </a-list-item>
     </template>
     <template #header>
-      <div>数据源-XXXX</div>
+      <div>数据源-XXXX'</div>
     </template>
   </a-list>
+
+  <template v-else>
+    <a-button  type="primary" size="large">请选择数据源</a-button>
+  </template>
+
 </div>
 </template>
 
