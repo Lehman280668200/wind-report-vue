@@ -15,6 +15,20 @@ export function pageData (parameter: any,pageNo: number,pageSize: number)  {
 }
 
 /**
+ * 获取指定的数据报表信息
+ * @param parameter 
+ * @param id 
+ * @returns 
+ */
+ export function getData (parameter: any,id: string)  {
+    return Request.axiosInstance({
+        url: '/report/data/get/'+id,
+        method: 'get',
+        data: parameter
+    })
+}
+
+/**
  * 新增数据报表信息
  * @param parameter 
  * @returns 

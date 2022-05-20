@@ -54,3 +54,32 @@ export function deleteData (parameter: any,id: string)  {
         data: parameter
     })
 }
+
+/**
+ * 测试连接数据库
+ * @param parameter 
+ * @param id 
+ * @returns 
+ */
+ export function validateSQL (parameter: any)  {
+    return Request.axiosInstance({
+        url: '/ds/validate',
+        method: 'post',
+        data: parameter
+    })
+}
+
+
+/**
+ * 根据数据源获取数据
+ * @param parameter 
+ * @param id 
+ * @returns 
+ */
+export function getReportData (parameter:any,id: string) {
+    return Request.axiosInstance({
+        url: '/ds/report-data/'+id,
+        method: 'get',
+        data: parameter
+    })
+}

@@ -54,3 +54,17 @@ export function deleteData (parameter: any,id: string)  {
         data: parameter
     })
 }
+
+/**
+ * 测试连接数据库
+ * @param parameter 
+ * @param id 
+ * @returns 
+ */
+ export function validatePool (parameter: any)  {
+    return Request.axiosInstance({
+        url: '/db/validate',
+        method: 'post',
+        data: parameter
+    })
+}

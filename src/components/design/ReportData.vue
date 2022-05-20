@@ -1,23 +1,19 @@
 <template>
 <div class="wrapper">
 
-  <a-list size="small" v-if="props.data.length>0"  :data-source="props.data">
+  <a-list size="small"  :data-source="props.sqlColumn">
     <template #renderItem="{ item }" >
       <a-list-item >
-        <a-list-item-meta :description="item.column">
-          <template #title>{{ item.title }}</template>
+        <a-list-item-meta>
+          <template #title>{{ item }}</template>
         </a-list-item-meta>
-          <a-button type="primary" @click="copyColumn(item.column)">复制</a-button>
+        <a-button type="primary" @click="copyColumn(item)">复制</a-button>
       </a-list-item>
     </template>
     <template #header>
-      <div>数据源-XXXX'</div>
+      <div>SOL查询列</div>
     </template>
   </a-list>
-
-  <template v-else>
-    <a-button  type="primary" size="large">请选择数据源</a-button>
-  </template>
 
 </div>
 </template>
@@ -27,10 +23,9 @@ import { defineComponent } from "vue"
 import { message } from 'ant-design-vue'
 import clipboard from 'vue-clipboard3'
 
-
 export default defineComponent({
   props: {
-    data: Array
+    sqlColumn: Array
   },
   setup(props) {
 
@@ -61,8 +56,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .wrapper {
   height: calc(100vh);
-  border-right: 1px #cccccc solid;
-
+  
   .ant-list-item-meta{
     text-align: left;
   }

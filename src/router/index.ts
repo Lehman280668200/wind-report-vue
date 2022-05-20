@@ -46,10 +46,26 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/design',
+    path: '/design/:id?',
     name: 'design',
     component: () => import('../components/design/ReportDesign.vue')
   },
+  {
+    path: '/view/report-data/:data_id/:ds_id',
+    name: 'view',
+    component: () => import('../components/view/ReportDataRender.vue')
+  },
+  /*{ 
+    path: '/404', 
+    name: 'page404',  
+    component: () => import('../views/404Page.vue')
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    name: 'notFound'
+   
+  }*/
 ]
 
 const router = createRouter({

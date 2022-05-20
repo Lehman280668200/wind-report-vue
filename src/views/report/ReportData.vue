@@ -1,39 +1,50 @@
 <template>
 
   <!-- report -->
-  <div class="report-div">
-     <a-row type="flex" align="middle">
-      <a-col :span="6">
-        <div class="report report-add">
-          <img @click="reportAdd" :src="new_excel" alt="" />
-          <div class="foot"></div>
-        </div>
-      </a-col>
-      <template v-for="(item,index) in data" :key="index">
+  <a-dropdown :trigger="['contextmenu']">
+    <div class="report-div">
+      <a-row type="flex" align="middle">
         <a-col :span="6">
-          <div class="report">
-            <img @click="reportEdit" :src="excel" alt="" />
-            <div class="foot">
-              <span class="name">{{item.name}}</span>
-              <span class="operate">
-                 <a @click="reportCollect(item)" title="收藏">
-                    <star-filled v-if="item.collect==1" style="color:#ffeb3b;" />
-                    <star-outlined v-else />
-                 </a>
-                 <a-popconfirm
-                  v-if="data.length"
-                  :title="'确定删除【'+item.name +'】?'"
-                  @confirm="reportDelete(item.data_id)" >
-                    <delete-outlined />
-                  </a-popconfirm>
-                <a href="" title="复制"> <copy-outlined /></a>
-              </span>
-            </div>
+          <div class="report report-add">
+            <img @click="reportAdd" :src="new_excel" alt="" />
+            <div class="foot"></div>
           </div>
         </a-col>
-      </template>
-    </a-row>
-  </div>
+        <template v-for="(item,index) in data" :key="index">
+          <a-col :span="6">
+            <div class="report">
+              <img @click="reportEdit(item.data_id)" :src="excel" alt="" />
+              <div class="foot">
+                <span class="name">{{item.name}}</span>
+                <span class="operate">
+                  <a @click="reportView(item.data_id,item.ds_id)" title="预览"> <eye-outlined /></a>
+                  <a @click="reportCollect(item)" title="收藏">
+                      <star-filled v-if="item.collect==1" style="color:#ffeb3b;" />
+                      <star-outlined v-else />
+                  </a>
+                  <a-popconfirm
+                    v-if="data.length"
+                    :title="'确定删除【'+item.name +'】?'"
+                    @confirm="reportDelete(item.data_id)" >
+                      <delete-outlined />
+                    </a-popconfirm>
+                  <a @click="reportCopy(item)" title="复制"> <copy-outlined /></a>
+                </span>
+              </div>
+            </div>
+          </a-col>
+        </template>
+      </a-row>
+    </div>
+    <template #overlay>
+      <a-menu>
+        <a-menu-item key="paste" @click="reportPaste">粘贴复制的报表</a-menu-item>
+      </a-menu>
+    </template>
+  </a-dropdown>
+
+
+
   <!-- page -->
   <a-pagination show-quick-jumper 
       v-model:current="current"
@@ -46,12 +57,13 @@
 <script lang="ts">
 import { defineComponent,ref } from "vue"
 import {
+  EyeOutlined,
   DeleteOutlined,
   StarOutlined,
   CopyOutlined,
   StarFilled,
 } from "@ant-design/icons-vue"
-import { pageData,updateData,deleteData } from '@/api/ReportDataApi'
+import { pageData,updateData,deleteData,saveData } from '@/api/ReportDataApi'
 import { message } from 'ant-design-vue'
 
 
@@ -63,6 +75,7 @@ interface reportData {
   columns?: string
   collect?: number
   create_date?: string
+  update_date?: string
 }
 export default defineComponent({
   setup() {
@@ -71,6 +84,8 @@ export default defineComponent({
     const pageSize = ref<number>(10)  //  每页展示数量
     const data = ref<reportData[]>([])  //  数据报表数据
     const total = ref<number>(0) //  数据报表总数
+
+    const copyReport = ref<reportData>()  //  当前复制的报表
 
 
     //  加载表格数据
@@ -92,8 +107,13 @@ export default defineComponent({
     }
 
     //  编辑报表
-    const reportEdit = () => {
-      window.open("/design")
+    const reportEdit = (data_id:string) => {
+      window.open("/design/"+data_id)
+    }
+
+    //  预览报表
+    const reportView =(data_id:string,ds_id:string) =>{
+      window.open("/view/report-data/"+data_id+"/"+ds_id)
     }
 
     // 收藏/取消收藏 报表
@@ -128,8 +148,29 @@ export default defineComponent({
     const reportCopy = (item:reportData) =>{
       let copy = {...item}
       delete copy['data_id']
+      delete copy['collect']
       delete copy['create_date']
-      console.log('insert'+item.name)
+      delete copy['update_date']
+      copy.name = copy.name+"_copy"
+      copyReport.value = copy
+      message.success("报表复制成功！")
+    }
+
+    // 粘贴报表
+    const reportPaste = () =>{
+      if(copyReport.value){
+        saveData(copyReport.value).then(response => {
+            const res: any = response.data
+            if(res.code == 280){
+              message.success(res.msg)
+            }else{
+              message.error(res.msg)
+            }
+            loadData()
+        })
+      }else{
+        message.warning('请先复制报表，然后进行粘贴')
+      }
     }
 
     //  分页跳转
@@ -144,12 +185,15 @@ export default defineComponent({
       pageSize,
       data,
       total,
+      copyReport,
       loadData,
       reportAdd,
       reportEdit,
+      reportView,
       reportCollect,
       reportDelete,
       reportCopy,
+      reportPaste,
       changePage,
       excel:require('@/assets/excel.jpg'),
       new_excel:require('@/assets/new_excel.jpg'),
@@ -159,6 +203,7 @@ export default defineComponent({
     this.loadData()
   },
   components: {
+    EyeOutlined,
     DeleteOutlined,
     StarOutlined,
     CopyOutlined,
