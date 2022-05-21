@@ -1,5 +1,7 @@
 <template>
 
+ <a-spin :spinning="spinning" tip="数据加载中...">
+
   <!-- report -->
   <a-dropdown :trigger="['contextmenu']">
     <div class="report-div">
@@ -52,7 +54,8 @@
       @change="changePage" 
       :total="total"
       :show-total="total => `共 ${total} 条`"  />
-  
+
+ </a-spin>
 </template>
 <script lang="ts">
 import { defineComponent,ref } from "vue"
@@ -80,6 +83,8 @@ interface reportData {
 export default defineComponent({
   setup() {
 
+    const spinning = ref<boolean>(true) //  页面加载状态
+
     const current = ref<number>(1)  //  当前页码
     const pageSize = ref<number>(10)  //  每页展示数量
     const data = ref<reportData[]>([])  //  数据报表数据
@@ -93,6 +98,7 @@ export default defineComponent({
       pageData(null,current.value,pageSize.value).then(response => {
         const res: any = response.data
         if(res.code == 280){
+          spinning.value = false
           data.value = res.data.data
           total.value = res.data.count
         }else{
@@ -181,6 +187,7 @@ export default defineComponent({
     }
 
     return { 
+      spinning,
       current,
       pageSize,
       data,

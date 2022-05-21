@@ -13,15 +13,55 @@
         <a-input-number v-model:value="column.width" :min="50" :max="800" placeholder="请输入50-800之间的数字大小"   style="width:100%"/>
       </a-form-item>
       <a-form-item label="对齐方式">
-        <a-radio-group v-model:value="column.align">
+        <a-radio-group v-model:value="column.align"  button-style="solid">
           <a-radio-button value="left">左对齐</a-radio-button>
           <a-radio-button value="center">居中</a-radio-button>
           <a-radio-button value="right">右对齐</a-radio-button>
         </a-radio-group>
       </a-form-item>
-      <a-form-item label="排序">
-        <a-switch v-model:checked="column.sorter" checked-children="有" un-checked-children="无" />
+      <a-form-item label="数据类型">
+        <a-radio-group v-model:value="column.dataType">
+          <a-radio value="string" @click="delete column['json']">文本类型</a-radio>
+          <a-radio value="number" @click="delete column['json']">数字类型</a-radio>
+           <br />
+          <a-radio value="date" @click="delete column['json']">时间日期</a-radio>
+          <a-radio value="json">JSON数组</a-radio>
+        </a-radio-group>
       </a-form-item>
+      <a-form-item label="【JSON数组】: text-value " v-if="column.dataType=='json'">
+        <a-textarea
+          v-model:value="column.json"
+          placeholder='请输入如下格式JSON字符串
+[
+  {
+  "text":"男",
+  "value":"1"
+  },
+  {
+  "text":"女",
+  "value":"2"
+  }
+]'
+          :auto-size="{ minRows: 5, maxRows: 5 }"
+        />
+      </a-form-item>
+      <a-form-item label="【数字类型】: 合计项" v-if="column.dataType=='number'">
+        <a-switch  checked-children="是" un-checked-children="否" />
+      </a-form-item>
+      <a-alert
+        message="注意事项"
+        description="下列配置项受数据类型影响，请确保您的数据类型配置无误！"
+        type="info"
+        show-icon
+      />
+      <br/>
+      <a-form-item label="列排序">
+        <a-switch v-model:checked="column.sorter" checked-children="是" un-checked-children="否" />
+      </a-form-item>
+      <a-form-item label="列筛选">
+        <a-switch v-model:checked="column.search" checked-children="是" un-checked-children="否" />
+      </a-form-item>
+
     </a-form>
 
   </div>

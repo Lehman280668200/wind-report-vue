@@ -59,7 +59,7 @@
         
       </a-spin>
     </a-col>
-    <a-col :span="4"> 
+    <a-col :span="4" class="setting"> 
       <a-spin :spinning="!sqlColumn.length>0" >
         <ReportSetting 
          :name="name" :page="page" :bordered="bordered"
@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { message, TableColumnsType,Modal  } from 'ant-design-vue'
+import { message,Modal  } from 'ant-design-vue'
 import { defineComponent, ref,h } from "vue"
 import ReportData from "./ReportData.vue"
 import ReportSetting from "./ReportSetting.vue"
@@ -104,7 +104,7 @@ export default defineComponent({
     const dsList = ref<any[]>([]) //  数据源列表
     const ds_id = ref<string>('') //  选择的数据源ID
 
-    const dColumns = ref<TableColumnsType>([])  //  表格动态列
+    const dColumns = ref<any>([])  //  表格动态列
     const fixedData = ref<object[]>([])    //  表格动态数据
 
     const name = ref<string>()  //  报表名称
@@ -130,7 +130,7 @@ export default defineComponent({
       }else{
         dColumns.value =[
           {title: '表格列',dataIndex: 'key',fixed: 'left', width: 80},
-          {title: '列名1',dataIndex: 'name1',customFilterDropdown: true,align:'left',sorter:false},
+          {title: '列名1',dataIndex: 'name1',customFilterDropdown: true,align:'left',dataType:'string',sorter:false,search:false},
           {title: '操作',dataIndex: 'operation',fixed: 'right', width: 80,align:'center'}
         ]
         fixedData.value =[{key:0,name1:''}]
@@ -184,7 +184,7 @@ export default defineComponent({
       let lastColumn:any=dColumns.value[dColumns.value.length-1]
       let index=parseInt(lastColumn.dataIndex.substring(4))+1   //  处理得到index
     
-      dColumns.value.push({title: '列名'+index,dataIndex: 'name'+index, customFilterDropdown: true,align:'left',sorter:false}) //  追加列
+      dColumns.value.push({title: '列名'+index,dataIndex: 'name'+index, customFilterDropdown: true,align:'left',dataType:'string',sorter:false,search:false}) //  追加列
       dColumns.value.push({title: '操作',dataIndex: 'operation',fixed: 'right', width: 80, align:'center' })  //  补全操作按钮
       
       //  补全对象属性
@@ -382,6 +382,10 @@ export default defineComponent({
     padding: 0px;
     border: 1px red solid;
   }
+}
+.setting{
+    height: calc(100vh);
+    overflow: auto;
 }
 
 </style>
